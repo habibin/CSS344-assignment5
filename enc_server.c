@@ -63,12 +63,12 @@ int main(int argc, char *argv[]){
                     (struct sockaddr *)&clientAddress, 
                     &sizeOfClientInfo); 
         if (connectionSocket < 0){
-            error("ERROR on binding");
+            fprintf(stderr, RED "ERROR on binding");
         }
 
-        fprintf(stdout, WHITE "SERVER: Connected to client running at host %d port %d\n", 
-                            ntohs(clientAddress.sin_addr.s_addr),
-                            ntohs(clientAddress.sin_port));
+        // fprintf(stdout, WHITE "SERVER: Connected to client running at host %d port %d\n", 
+        //                     ntohs(clientAddress.sin_addr.s_addr),
+        //                     ntohs(clientAddress.sin_port));
 
     // Get the handshake message from the client
         char handshake_buf[2];
@@ -77,15 +77,14 @@ int main(int argc, char *argv[]){
         if (charsRead < 0){
             fprintf(stderr,"ERROR reading from socket");
         }
-        fprintf(stdout, WHITE "SERVER: I received this from the client: \"%s\"\n", handshake_buf);
 
         //verifies handshake message
-        //if messagematch, continue
+        //if message matches, continue
         if ( strcmp(handshake_buf,"?") == 0){
             // Send a identifying message back to the client
             int charsSent = send(connectionSocket, "@\0", 2, 0); 
             if (charsSent < 0){
-                error("ERROR writing to socket");
+                fprintf(stderr, RED "ERROR writing to socket");
             }
 
             // Get the textfile size from the client
@@ -94,14 +93,13 @@ int main(int argc, char *argv[]){
             int charsRead1 = recv(connectionSocket, buff1, 6, 0); 
             buff1[charsRead1] = '\0';
             if (charsRead1 < 0){
-                fprintf(stderr,"ERROR reading from socket");
+                fprintf(stderr, RED"ERROR reading from socket");
             }
-            fprintf(stdout, WHITE "SERVER: I received this from the client: \"%s\"\n", buff1);
 
-            // Send confirmation for receiving message back to the client
+            //Send confirmation for receiving message back to the client
             int charsSent1 = send(connectionSocket, "!\0", 2, 0); 
             if (charsSent1 < 0){
-                error("ERROR writing to socket");
+                fprintf(stderr, RED "ERROR writing to socket");
             }
 
             //converts textfile string size to number
@@ -113,10 +111,91 @@ int main(int argc, char *argv[]){
             //receives textfile from client
             int charsRead2 = recv(connectionSocket, text_buffer, text_size, MSG_WAITALL); 
             if (charsRead2 < 0){
-                fprintf(stderr,"ERROR reading from socket");
+                fprintf(stderr, RED "ERROR reading from socket");
             }
             text_buffer[charsRead2] = '\0';
-            fprintf(stdout, WHITE "SERVER: I received this from the client: \"%s\"\n", text_buffer);
+            // fprintf(stdout, WHITE "SERVER: I received this from the client: \"%s\"\n", text_buffer);
+
+            //Send confirmation for receiving textfile back to the client
+            int charsSent2 = send(connectionSocket, "!\0", 2, 0); 
+            if (charsSent2 < 0){
+                fprintf(stderr, RED "ERROR writing to socket");
+            }
+
+
+
+
+        /*RECEIVING KEYFILE*/
+            // Get the keyfile size from the client
+            char buff2[7];
+            // Read the client's message from the socket
+            int charsRead3 = recv(connectionSocket, buff2, 6, 0); 
+            buff2[charsRead3] = '\0';
+            if (charsRead3 < 0){
+                fprintf(stderr, RED "ERROR reading from socket");
+            }
+            // fprintf(stdout, WHITE "SERVER: I received this from the client: \"%s\"\n", buff2);
+
+            //Send confirmation for receiving key filesize back to the client
+            int charsSent3 = send(connectionSocket, "!\0", 2, 0); 
+            if (charsSent3 < 0){
+                fprintf(stderr, RED "ERROR writing to socket");
+            }
+
+            //converts keyfile string size to number
+            int key_size = atoi(buff2);
+            memset(buff2,0,7);
+            //creates keyfile buffer with key_size
+            char key_buffer[key_size+1];
+
+            //receives keyfile from client
+            int charsRead4 = recv(connectionSocket, key_buffer, key_size, MSG_WAITALL); 
+            if (charsRead4 < 0){
+                fprintf(stderr, RED "ERROR reading from socket");
+            }
+            key_buffer[charsRead4] = '\0';
+
+            /*ENCRYPTIAN DONE HERE*/
+            char characters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+            char cipher_buff[text_size+1]; //stores ciphertext after encryptian
+            int file_counter = 0; //counter for text and keyfile
+            //while loop finds index position and encrypts
+            while (text_buffer[file_counter] != '\0'){
+                //finds the textfile index number
+                int text_pos = 0;
+                for(text_pos; text_pos < 27; text_pos++){
+                    if(text_buffer[file_counter] == characters[text_pos]){
+                        break;
+                    }
+                }
+                //finds the keyfile index number
+                int key_pos = 0;
+                for(key_pos; key_pos < 27; key_pos++){
+                    if(key_buffer[file_counter] == characters[key_pos]){
+                        break;
+                    }
+                }
+
+                //addition occurs
+                int total = text_pos + key_pos;
+                //if number is greater than 25, subtract 26 from it.
+                if(total > 25){
+                    total = total-26;
+                }
+                //Converts new number back to character and stores in cipher_buff
+                cipher_buff[file_counter] = characters[total];
+                //increments to the next file index
+                file_counter++;
+            }
+
+            cipher_buff[text_size] = '\0';
+            // printf("cipher: %s length: %d\n", cipher_buff, strlen(cipher_buff));
+            //Sends cipher_buff to the client
+            int charsSent4 = send(connectionSocket, cipher_buff, text_size, 0); 
+            if (charsSent4 < 0){
+                fprintf(stderr, RED "ERROR writing to socket");
+            }
+
 
             // Close the connection socket for this client
             close(connectionSocket); 

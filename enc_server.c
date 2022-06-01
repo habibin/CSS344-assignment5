@@ -114,7 +114,7 @@ int main(int argc, char *argv[]){
                 fprintf(stderr, RED "ERROR reading from socket");
             }
             text_buffer[charsRead2] = '\0';
-            // fprintf(stdout, WHITE "SERVER: I received this from the client: \"%s\"\n", text_buffer);
+            // fprintf(stdout, WHITE "text_buff: %s length: %d\n", text_buffer, strlen(text_buffer));
 
             //Send confirmation for receiving textfile back to the client
             int charsSent2 = send(connectionSocket, "!\0", 2, 0); 
@@ -160,7 +160,7 @@ int main(int argc, char *argv[]){
             char cipher_buff[text_size+1]; //stores ciphertext after encryptian
             int file_counter = 0; //counter for text and keyfile
             //while loop finds index position and encrypts
-            while (text_buffer[file_counter] != '\0'){
+            while (text_buffer[file_counter] != '\n'){
                 //finds the textfile index number
                 int text_pos = 0;
                 for(text_pos; text_pos < 27; text_pos++){
@@ -188,7 +188,8 @@ int main(int argc, char *argv[]){
                 file_counter++;
             }
 
-            cipher_buff[text_size] = '\0';
+            cipher_buff[text_size-1] = '\n';
+            // printf("textsize: %d\n", text_size);
             // printf("cipher: %s length: %d\n", cipher_buff, strlen(cipher_buff));
             //Sends cipher_buff to the client
             int charsSent4 = send(connectionSocket, cipher_buff, text_size, 0); 

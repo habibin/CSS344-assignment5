@@ -5,8 +5,7 @@
 #include <sys/types.h>  // ssize_t
 #include <sys/socket.h> // send(),recv()
 #include <netdb.h>      // gethostbyname()
-#define RED "\e[0;31m"  //color red is defined
-#define WHITE "\e[0;37m"
+
 
 /**
 * Client code
@@ -40,7 +39,7 @@ void setupAddressStruct(struct sockaddr_in* address, int portNumber){
     // Get the DNS entry for this host name
     struct hostent* hostInfo = gethostbyname(hostname); 
     if (hostInfo == NULL) { 
-        fprintf(stderr, RED "CLIENT: ERROR, no such host\n"); 
+        fprintf(stderr, "CLIENT: ERROR, no such host\n"); 
         exit(0); 
     }
     // Copy the first IP address from the DNS entry to sin_addr.s_addr
@@ -58,7 +57,7 @@ char* read_func(char* textfile){
 
     //error opening file
     if (fp == NULL){
-        fprintf(stderr, RED "ERROR in opening file");
+        fprintf(stderr, "ERROR in opening file");
     }
 
     //moves to end of file
@@ -74,7 +73,7 @@ char* read_func(char* textfile){
     while (i < filesize){
         buffer[i] = fgetc(fp);
         if (buffer[i] != '\n' && strchr(characters, buffer[i]) == NULL){
-            fprintf(stderr, RED "unapproved character is found in file");
+            fprintf(stderr, "unapproved character is found in file");
             exit(1);
         }
         i++;
@@ -97,7 +96,7 @@ int main(int argc, char *argv[]) {
 
     //checks if keyfile is smaller than textfile
     if (strlen(text_buffer) > strlen(key_buffer)){
-        fprintf(stderr, RED "ERROR: keyfile is shorter than textfile");
+        fprintf(stderr, "ERROR: keyfile is shorter than textfile");
         exit(1);
     }
 
@@ -111,7 +110,7 @@ int main(int argc, char *argv[]) {
     // Create a socket
     int socketFD = socket(AF_INET, SOCK_STREAM, 0); 
     if (socketFD < 0){
-        fprintf(stderr, RED "CLIENT: ERROR opening socket");
+        fprintf(stderr, "CLIENT: ERROR opening socket");
     }
 
     // Set up the server address struct
@@ -120,20 +119,20 @@ int main(int argc, char *argv[]) {
     // Connect to server
     int connection_status = connect(socketFD, (struct sockaddr*)&serverAddress, sizeof(serverAddress));
     if (connection_status < 0){
-        fprintf(stderr, RED "Error: cannot make connection to socket");
+        fprintf(stderr, "Error: cannot make connection to socket");
     }
 
     // Send message to server to identify itself
     int handshake = send(socketFD, "?\0", 2, 0); 
     if (handshake < 0){
-        fprintf(stderr, RED "CLIENT: ERROR writing to socket");
+        fprintf(stderr, "CLIENT: ERROR writing to socket");
     }
 
     // Get handshake message from server
     char handshake_buff[3];
     int charsRead = recv(socketFD, handshake_buff, 2, 0); 
     if (charsRead < 0){
-        fprintf(stderr, RED "CLIENT: ERROR reading from socket");
+        fprintf(stderr, "CLIENT: ERROR reading from socket");
     }
 
     //verifies handshake message
@@ -143,14 +142,14 @@ int main(int argc, char *argv[]) {
         //sends the file size of textfile to server
         int filesize1 = send(socketFD, num_str1 , strlen(num_str1), 0); 
         if (filesize1 < 0){
-            fprintf(stderr, RED "CLIENT: ERROR writing to socket");
+            fprintf(stderr,"CLIENT: ERROR writing to socket");
         }
 
        // Get confirmation for filesize from server
         char confirm_buf[3];
         int charsRead1 = recv(socketFD, confirm_buf, 2, 0); 
         if (charsRead1 < 0){
-            error("CLIENT: ERROR reading from socket");
+            fprintf(stderr, "CLIENT: ERROR reading from socket");
         }
 
         //sends the textfile to server
@@ -158,7 +157,7 @@ int main(int argc, char *argv[]) {
         while (1){
             int textfile = send(socketFD, text_buffer , strlen(text_buffer), 0); 
             if (textfile < 0){
-                fprintf(stderr, RED "CLIENT: ERROR writing to socket");
+                fprintf(stderr, "CLIENT: ERROR writing to socket");
             }
             //checks to see if all file has been sent
             counter = textfile + counter;
@@ -171,7 +170,7 @@ int main(int argc, char *argv[]) {
         char confirm_buf1[3];
         int charsRead2 = recv(socketFD, confirm_buf1, 2, 0); 
         if (charsRead2 < 0){
-            fprintf(stderr, RED "CLIENT: ERROR reading from socket");
+            fprintf(stderr, "CLIENT: ERROR reading from socket");
         }
 
 
@@ -179,14 +178,14 @@ int main(int argc, char *argv[]) {
         //sends the file size of keyfile to server
         int filesize2 = send(socketFD, num_str2 , strlen(num_str2), 0); 
         if (filesize2 < 0){
-            fprintf(stderr, RED "CLIENT: ERROR writing to socket");
+            fprintf(stderr, "CLIENT: ERROR writing to socket");
         }
 
        // Get confirmation for key filesize from server
         char confirm_buf2[3];
         int charsRead3 = recv(socketFD, confirm_buf2, 2, 0); 
         if (charsRead3 < 0){
-            error("CLIENT: ERROR reading from socket");
+            fprintf(stderr, "CLIENT: ERROR reading from socket");
         }
 
         //sends the keyfile to server
@@ -207,12 +206,9 @@ int main(int argc, char *argv[]) {
         char cipher_buff[strlen(text_buffer)];
         int charsRead4 = recv(socketFD, cipher_buff, strlen(text_buffer), MSG_WAITALL); 
         if (charsRead4 < 0){
-            error("CLIENT: ERROR reading from socket");
+            fprintf(stderr, "CLIENT: ERROR reading from socket");
         }
-        fprintf(stdout, "%s\n", cipher_buff);
-
-
-
+        fprintf(stdout, "%s", cipher_buff);
 
         close(socketFD);
     }

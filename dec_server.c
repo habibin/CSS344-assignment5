@@ -80,9 +80,9 @@ int main(int argc, char *argv[]){
 
         //verifies handshake message
         //if message matches, continue
-        if ( strcmp(handshake_buf,"?") == 0){
+        if ( strcmp(handshake_buf,"*") == 0){
             // Send a identifying message back to the client
-            int charsSent = send(connectionSocket, "@\0", 2, 0); 
+            int charsSent = send(connectionSocket, "*\0", 2, 0); 
             if (charsSent < 0){
                 fprintf(stderr, RED "ERROR writing to socket");
             }
@@ -155,11 +155,11 @@ int main(int argc, char *argv[]){
             }
             key_buffer[charsRead4] = '\0';
 
-            /*ENCRYPTIAN DONE HERE*/
+            /*DECRYPTIAN DONE HERE*/
             char characters[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
-            char cipher_buff[text_size+1]; //stores ciphertext after encryptian
+            char message_buff[text_size+1]; //stores message after decryptian
             int file_counter = 0; //counter for text and keyfile
-            //while loop finds index position and encrypts
+            //while loop finds index position and decrypts
             while (text_buffer[file_counter] != '\n'){
                 //finds the textfile index number
                 int text_pos = 0;
@@ -176,28 +176,23 @@ int main(int argc, char *argv[]){
                     }
                 }
 
-                // printf("text: %c pos: %d  key:%c pos: %d\n", text_buffer[file_counter],
-                // text_pos, key_buffer[file_counter], key_pos);
-
-                //addition occurs
-                int total = text_pos + key_pos;
-                // printf("total: %d\n", total);
-                //if number is greater than 25, subtract 26 from it.
-                if(total > 26){
-                    total = total-27;
+                //subtraction occurs
+                int total = text_pos - key_pos;
+                //if number is less than 0, add 27 to it.
+                if(total < 0){
+                    total = total+27;
                 }
-                printf("total: %d\n", total);
-                //Converts new number back to character and stores in cipher_buff
-                cipher_buff[file_counter] = characters[total];
+                //Converts new number back to character and stores in message_buff
+                message_buff[file_counter] = characters[total];
                 //increments to the next file index
                 file_counter++;
             }
 
-            cipher_buff[text_size-1] = '\n';
+            message_buff[text_size-1] = '\n';
             // printf("textsize: %d\n", text_size);
             // printf("cipher: %s length: %d\n", cipher_buff, strlen(cipher_buff));
             //Sends cipher_buff to the client
-            int charsSent4 = send(connectionSocket, cipher_buff, text_size, 0); 
+            int charsSent4 = send(connectionSocket, message_buff, text_size, 0); 
             if (charsSent4 < 0){
                 fprintf(stderr, RED "ERROR writing to socket");
             }

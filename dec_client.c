@@ -215,6 +215,8 @@ int main(int argc, char *argv[]) {
 
     //else it closes the socket connection
     else{
+         //prints wrong connection
+        fprintf(stderr, "Connected to Wrong Server");
         // Close the socket
         close(socketFD); 
     }

@@ -189,8 +189,6 @@ int main(int argc, char *argv[]){
             }
 
             message_buff[text_size-1] = '\n';
-            // printf("textsize: %d\n", text_size);
-            // printf("cipher: %s length: %d\n", cipher_buff, strlen(cipher_buff));
             //Sends cipher_buff to the client
             int charsSent4 = send(connectionSocket, message_buff, text_size, 0); 
             if (charsSent4 < 0){
@@ -204,7 +202,7 @@ int main(int argc, char *argv[]){
 
         //otherwise socket connection is closed
         else{
-            fprintf(stderr, RED "Connected to wrong client\n");
+            fprintf(stderr, "Connected to wrong client\n");
             close(connectionSocket);
         }
     }

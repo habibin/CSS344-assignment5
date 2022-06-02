@@ -73,7 +73,7 @@ char* read_func(char* textfile){
     while (i < filesize){
         buffer[i] = fgetc(fp);
         if (buffer[i] != '\n' && strchr(characters, buffer[i]) == NULL){
-            fprintf(stderr, "unapproved character is found in file");
+            fprintf(stderr, "unapproved character is found in file\n");
             exit(1);
         }
         i++;
@@ -215,6 +215,8 @@ int main(int argc, char *argv[]) {
 
     //else it closes the socket connection
     else{
+        //prints wrong connection
+        fprintf(stderr, "Connected to Wrong Server");
         // Close the socket
         close(socketFD); 
     }

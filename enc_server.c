@@ -66,10 +66,6 @@ int main(int argc, char *argv[]){
             fprintf(stderr, RED "ERROR on binding");
         }
 
-        // fprintf(stdout, WHITE "SERVER: Connected to client running at host %d port %d\n", 
-        //                     ntohs(clientAddress.sin_addr.s_addr),
-        //                     ntohs(clientAddress.sin_port));
-
     // Get the handshake message from the client
         char handshake_buf[2];
         // Read the client's message from the socket
@@ -114,7 +110,6 @@ int main(int argc, char *argv[]){
                 fprintf(stderr, RED "ERROR reading from socket");
             }
             text_buffer[charsRead2] = '\0';
-            // fprintf(stdout, WHITE "text_buff: %s length: %d\n", text_buffer, strlen(text_buffer));
 
             //Send confirmation for receiving textfile back to the client
             int charsSent2 = send(connectionSocket, "!\0", 2, 0); 
@@ -176,17 +171,12 @@ int main(int argc, char *argv[]){
                     }
                 }
 
-                // printf("text: %c pos: %d  key:%c pos: %d\n", text_buffer[file_counter],
-                // text_pos, key_buffer[file_counter], key_pos);
-
                 //addition occurs
                 int total = text_pos + key_pos;
-                // printf("total: %d\n", total);
                 //if number is greater than 25, subtract 26 from it.
                 if(total > 26){
                     total = total-27;
                 }
-                printf("total: %d\n", total);
                 //Converts new number back to character and stores in cipher_buff
                 cipher_buff[file_counter] = characters[total];
                 //increments to the next file index
@@ -194,8 +184,6 @@ int main(int argc, char *argv[]){
             }
 
             cipher_buff[text_size-1] = '\n';
-            // printf("textsize: %d\n", text_size);
-            // printf("cipher: %s length: %d\n", cipher_buff, strlen(cipher_buff));
             //Sends cipher_buff to the client
             int charsSent4 = send(connectionSocket, cipher_buff, text_size, 0); 
             if (charsSent4 < 0){
@@ -209,7 +197,7 @@ int main(int argc, char *argv[]){
 
         //otherwise socket connection is closed
         else{
-            fprintf(stderr, RED "Connected to wrong client\n");
+            fprintf(stderr, "Connected to wrong client\n");
             close(connectionSocket);
         }
     }

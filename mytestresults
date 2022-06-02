@@ -23,7 +23,7 @@ ERROR: keyfile is shorter than textfile
 #-----------------------------------------
 #enc_client plaintext1 key70000 $encport
 #20 POINTS: Should return encrypted version of plaintext1
-RKMJSUCNCKNKIMPRKUBMBXTGLQKINQPUUMSH
+WEXAHEKGIFJSOGBNEWECURIJ VS TNNPWVEZ
 
 #-----------------------------------------
 #enc_client plaintext1 key70000 $encport > ciphertext1
@@ -39,13 +39,13 @@ ciphertext1 exists!
 
 #-----------------------------------------
 #5 POINTS: ciphertext1 should look encrypted
-RKMJSUCNCKNKIMPRKUBMBXTGLQKINQPUUMSH
+WEXAHEKGIFJSOGBNEWECURIJ VS TNNPWVEZ
 
 #-----------------------------------------
 #dec_client ciphertext1 key70000 $encport
 #5 POINTS: Should fail giving error that dec_client cannot use enc_server
 Connected to wrong client
-
+Connected to Wrong Server
 #-----------------------------------------
 #20 POINTS: should return decrypted ciphertext1 that matches source
 #cat plaintext1
@@ -69,29 +69,30 @@ plaintext1_a exists!
 #5 POINTS: Should be only one error about plaintext5 being bad
 Ten second sleep, your program must complete in this time
 unapproved character is found in file
-total 1296
-drwxr-xr-x. 3 habibin upg19449   725 Jun  1 22:40 ./
-drwxr-xr-x. 8 habibin upg19449   223 Jun  1 22:15 ../
--rw-r--r--. 1 habibin upg19449    37 Jun  1 22:40 ciphertext1
--rw-r--r--. 1 habibin upg19449   317 Jun  1 22:40 ciphertext2
--rw-r--r--. 1 habibin upg19449    17 Jun  1 22:40 ciphertext3
--rw-r--r--. 1 habibin upg19449 69333 Jun  1 22:40 ciphertext4
--rw-r--r--. 1 habibin upg19449     0 Jun  1 22:40 ciphertext5
--rwxr-xr-x. 1 habibin upg19449 13880 Jun  1 22:40 dec_client
--rw-r--r--. 1 habibin upg19449  6714 Jun  1 19:07 dec_client.c
--rwxr-xr-x. 1 habibin upg19449 13240 Jun  1 22:40 dec_server
--rw-r--r--. 1 habibin upg19449  7743 Jun  1 22:23 dec_server.c
--rwxr-xr-x. 1 habibin upg19449 13880 Jun  1 22:40 enc_client
--rw-r--r--. 1 habibin upg19449  6721 Jun  1 22:39 enc_client.c
--rwxr-xr-x. 1 habibin upg19449 13240 Jun  1 22:40 enc_server
--rw-r--r--. 1 habibin upg19449  7421 Jun  1 22:27 enc_server.c
-drwxr-xr-x. 8 habibin upg19449   270 Jun  1 22:03 .git/
--rw-r--r--. 1 habibin upg19449    21 Jun  1 22:40 key20
--rw-r--r--. 1 habibin upg19449 70001 Jun  1 22:40 key70000
--rwxr-xr-x. 1 habibin upg19449  8736 Jun  1 22:40 keygen
+total 1584
+drwxr-xr-x. 3 habibin upg19449   750 Jun  2 12:00 ./
+drwxr-xr-x. 8 habibin upg19449   197 Jun  2 09:53 ../
+-rw-r--r--. 1 habibin upg19449    37 Jun  2 12:00 ciphertext1
+-rw-r--r--. 1 habibin upg19449   317 Jun  2 12:00 ciphertext2
+-rw-r--r--. 1 habibin upg19449    17 Jun  2 12:00 ciphertext3
+-rw-r--r--. 1 habibin upg19449 69333 Jun  2 12:00 ciphertext4
+-rw-r--r--. 1 habibin upg19449     0 Jun  2 12:00 ciphertext5
+-rwxr-xr-x. 1 habibin upg19449 13880 Jun  2 12:00 dec_client
+-rw-r--r--. 1 habibin upg19449  6803 Jun  2 12:00 dec_client.c
+-rwxr-xr-x. 1 habibin upg19449 13344 Jun  2 12:00 dec_server
+-rw-r--r--. 1 habibin upg19449  9183 Jun  2 11:59 dec_server.c
+-rwxr-xr-x. 1 habibin upg19449 13880 Jun  2 12:00 enc_client
+-rw-r--r--. 1 habibin upg19449  6809 Jun  2 11:59 enc_client.c
+-rwxr-xr-x. 1 habibin upg19449 13344 Jun  2 12:00 enc_server
+-rw-r--r--. 1 habibin upg19449  9082 Jun  2 11:59 enc_server.c
+drwxr-xr-x. 8 habibin upg19449   270 Jun  2 08:47 .git/
+-rw-r--r--. 1 habibin upg19449    21 Jun  2 12:00 key20
+-rw-r--r--. 1 habibin upg19449 70001 Jun  2 12:00 key70000
+-rw-r--r--. 1 habibin upg19449 70002 Jun  2 09:42 keyfile
+-rwxr-xr-x. 1 habibin upg19449  8736 Jun  2 12:00 keygen
 -rw-r--r--. 1 habibin upg19449   908 May 28 11:22 keygen.c
 -rwxr--r--. 1 habibin upg19449   589 Jun  1 22:14 Makefile
--rw-r--r--. 1 habibin upg19449  2460 Jun  1 22:40 mytestresults
+-rw-r--r--. 1 habibin upg19449  2485 Jun  2 12:00 mytestresults
 -rwxr-xr-x. 1 habibin upg19449  5388 May 28 11:10 p5testscript
 -rw-r--r--. 1 habibin upg19449    37 Jun  1 12:14 plaintext1
 -rw-r--r--. 1 habibin upg19449   317 May 31 17:58 plaintext2
@@ -102,43 +103,44 @@ drwxr-xr-x. 8 habibin upg19449   270 Jun  1 22:03 .git/
 #-----------------------------------------
 #15 POINTS: concurrent test of decryption - look for 4 plaintext#_a files that match the plaintext# files
 #Ten second sleep, your program must complete in this time
-total 1920
-drwxr-xr-x. 3 habibin upg19449   845 Jun  1 22:40 ./
-drwxr-xr-x. 8 habibin upg19449   223 Jun  1 22:15 ../
--rw-r--r--. 1 habibin upg19449    37 Jun  1 22:40 ciphertext1
--rw-r--r--. 1 habibin upg19449   317 Jun  1 22:40 ciphertext2
--rw-r--r--. 1 habibin upg19449    17 Jun  1 22:40 ciphertext3
--rw-r--r--. 1 habibin upg19449 69333 Jun  1 22:40 ciphertext4
--rw-r--r--. 1 habibin upg19449     0 Jun  1 22:40 ciphertext5
--rwxr-xr-x. 1 habibin upg19449 13880 Jun  1 22:40 dec_client
--rw-r--r--. 1 habibin upg19449  6714 Jun  1 19:07 dec_client.c
--rwxr-xr-x. 1 habibin upg19449 13240 Jun  1 22:40 dec_server
--rw-r--r--. 1 habibin upg19449  7743 Jun  1 22:23 dec_server.c
--rwxr-xr-x. 1 habibin upg19449 13880 Jun  1 22:40 enc_client
--rw-r--r--. 1 habibin upg19449  6721 Jun  1 22:39 enc_client.c
--rwxr-xr-x. 1 habibin upg19449 13240 Jun  1 22:40 enc_server
--rw-r--r--. 1 habibin upg19449  7421 Jun  1 22:27 enc_server.c
-drwxr-xr-x. 8 habibin upg19449   270 Jun  1 22:03 .git/
--rw-r--r--. 1 habibin upg19449    21 Jun  1 22:40 key20
--rw-r--r--. 1 habibin upg19449 70001 Jun  1 22:40 key70000
--rwxr-xr-x. 1 habibin upg19449  8736 Jun  1 22:40 keygen
+total 2208
+drwxr-xr-x. 3 habibin upg19449   870 Jun  2 12:00 ./
+drwxr-xr-x. 8 habibin upg19449   197 Jun  2 09:53 ../
+-rw-r--r--. 1 habibin upg19449    37 Jun  2 12:00 ciphertext1
+-rw-r--r--. 1 habibin upg19449   317 Jun  2 12:00 ciphertext2
+-rw-r--r--. 1 habibin upg19449    17 Jun  2 12:00 ciphertext3
+-rw-r--r--. 1 habibin upg19449 69333 Jun  2 12:00 ciphertext4
+-rw-r--r--. 1 habibin upg19449     0 Jun  2 12:00 ciphertext5
+-rwxr-xr-x. 1 habibin upg19449 13880 Jun  2 12:00 dec_client
+-rw-r--r--. 1 habibin upg19449  6803 Jun  2 12:00 dec_client.c
+-rwxr-xr-x. 1 habibin upg19449 13344 Jun  2 12:00 dec_server
+-rw-r--r--. 1 habibin upg19449  9183 Jun  2 11:59 dec_server.c
+-rwxr-xr-x. 1 habibin upg19449 13880 Jun  2 12:00 enc_client
+-rw-r--r--. 1 habibin upg19449  6809 Jun  2 11:59 enc_client.c
+-rwxr-xr-x. 1 habibin upg19449 13344 Jun  2 12:00 enc_server
+-rw-r--r--. 1 habibin upg19449  9082 Jun  2 11:59 enc_server.c
+drwxr-xr-x. 8 habibin upg19449   270 Jun  2 08:47 .git/
+-rw-r--r--. 1 habibin upg19449    21 Jun  2 12:00 key20
+-rw-r--r--. 1 habibin upg19449 70001 Jun  2 12:00 key70000
+-rw-r--r--. 1 habibin upg19449 70002 Jun  2 09:42 keyfile
+-rwxr-xr-x. 1 habibin upg19449  8736 Jun  2 12:00 keygen
 -rw-r--r--. 1 habibin upg19449   908 May 28 11:22 keygen.c
 -rwxr--r--. 1 habibin upg19449   589 Jun  1 22:14 Makefile
--rw-r--r--. 1 habibin upg19449  4371 Jun  1 22:40 mytestresults
+-rw-r--r--. 1 habibin upg19449  4454 Jun  2 12:00 mytestresults
 -rwxr-xr-x. 1 habibin upg19449  5388 May 28 11:10 p5testscript
 -rw-r--r--. 1 habibin upg19449    37 Jun  1 12:14 plaintext1
--rw-r--r--. 1 habibin upg19449    37 Jun  1 22:40 plaintext1_a
+-rw-r--r--. 1 habibin upg19449    37 Jun  2 12:00 plaintext1_a
 -rw-r--r--. 1 habibin upg19449   317 May 31 17:58 plaintext2
--rw-r--r--. 1 habibin upg19449   317 Jun  1 22:40 plaintext2_a
+-rw-r--r--. 1 habibin upg19449   317 Jun  2 12:00 plaintext2_a
 -rw-r--r--. 1 habibin upg19449    17 May 31 17:58 plaintext3
--rw-r--r--. 1 habibin upg19449    17 Jun  1 22:40 plaintext3_a
+-rw-r--r--. 1 habibin upg19449    17 Jun  2 12:00 plaintext3_a
 -rw-r--r--. 1 habibin upg19449 69333 May 31 17:58 plaintext4
--rw-r--r--. 1 habibin upg19449 69333 Jun  1 22:40 plaintext4_a
+-rw-r--r--. 1 habibin upg19449 69333 Jun  2 12:00 plaintext4_a
 -rw-r--r--. 1 habibin upg19449    42 May 31 17:58 plaintext5
 
 #-----------------------------------------
 #Cleaning up - ignore Operation Not Permitted errors
-./p5testscript: line 141: 156422 Terminated              ./dec_server $decport
-./p5testscript: line 143: 156421 Terminated              ./enc_server $encport
+./p5testscript: line 141: 322484 Terminated              ./dec_server $decport
+./p5testscript: line 143: 322483 Terminated              ./enc_server $encport
 
 #SCRIPT COMPLETE
